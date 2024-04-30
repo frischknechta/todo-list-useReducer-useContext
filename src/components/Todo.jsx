@@ -5,7 +5,7 @@ const Todo = ({ task, index }) => {
   const { dispatch } = useContext(TaskContext);
 
   return (
-    <div className="flex gap-5">
+    <div className="flex justify-between">
       <input
         type="checkbox"
         name="done"
@@ -15,13 +15,14 @@ const Todo = ({ task, index }) => {
           dispatch({ type: "TOGGLE_TASK", payload: index });
         }}
       />
-      <div>{task.task}</div>
+      <div className="w-4/5">{task.task}</div>
       <button
         onClick={() => {
           dispatch({ type: "REMOVE_TASK", payload: index });
         }}
+        className="rounded-full border border-solid border-black bg-gray-200 px-3 text-black hover:bg-gray-500 hover:text-white"
       >
-        Delete task
+        X
       </button>
     </div>
   );

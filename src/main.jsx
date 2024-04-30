@@ -5,11 +5,14 @@ import App from "./App.jsx";
 
 // Context
 import TaskProvider from "./context/TaskContext.jsx";
+import ThemeProvider from "./context/ThemeContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <TaskProvider>
-      <App />
-    </TaskProvider>
-  </React.StrictMode>
+    <ThemeProvider>
+      <TaskProvider>
+        <App />
+      </TaskProvider>
+    </ThemeProvider>
+  </React.StrictMode>,
 );

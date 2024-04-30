@@ -13,6 +13,9 @@ const initialState = {
 const taskReducer = (state, action) => {
   const { type, payload } = action;
   const stateCopy = structuredClone(state);
+  const { lastState } = stateCopy;
+  stateCopy.lastState = { ...state, lastState: null };
+
   switch (type) {
     case "ADD_TASK":
       stateCopy.numberOfUndoneTasks = stateCopy.numberOfUndoneTasks + 1;
@@ -50,6 +53,9 @@ const taskReducer = (state, action) => {
       stateCopy.sortTasks = !stateCopy.sortTasks;
       return stateCopy;
 
+    case "UNDO_LAST_EVENT":
+      return { ...lastState };
+
     default:
       return state;
   }
@@ -61,10 +67,7 @@ const TaskProvider = ({ children }) => {
   return (
     <TaskContext.Provider
       value={{
-        tasks: state.tasks,
-        numberOfDoneTasks: state.numberOfDoneTasks,
-        numberOfUndoneTasks: state.numberOfUndoneTasks,
-        sortTasks: state.sortTasks,
+        state: state,
         dispatch: dispatch,
       }}
     >

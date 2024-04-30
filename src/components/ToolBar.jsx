@@ -4,7 +4,7 @@ import { TaskContext } from "../context/TaskContext";
 const ToolBar = () => {
   const inputRef = useRef();
 
-  const { dispatch } = useContext(TaskContext);
+  const { dispatch, state } = useContext(TaskContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -13,10 +13,10 @@ const ToolBar = () => {
   };
 
   return (
-    <div className="flex gap-5">
-      <form onSubmit={handleSubmit}>
+    <div className="mx-auto flex w-1/2 flex-col gap-5">
+      <form onSubmit={handleSubmit} className="flex justify-between ">
         <input
-          className="border-black border-solid border"
+          className="w-4/6 border border-solid border-black px-5  text-black"
           type="text"
           name="task"
           id="task"
@@ -24,26 +24,38 @@ const ToolBar = () => {
           ref={inputRef}
           required
         />
-        <button className="border-black border-solid border">
+        <button className="rounded-full border border-solid border-black bg-gray-300 px-5 text-black hover:bg-gray-500 hover:text-white">
           Register task
         </button>
       </form>
-      <button
-        className="border-black border-solid border"
-        onClick={() => {
-          dispatch({ type: "RESET" });
-        }}
-      >
-        Reset
-      </button>
-      <button
-        className="border-black border-solid border"
-        onClick={() => {
-          dispatch({ type: "TOGGLE_SORT_TASKS" });
-        }}
-      >
-        Sort tasks
-      </button>
+      <div className="flex justify-between gap-5">
+        <button
+          className="rounded-full border border-solid border-black bg-gray-300 px-5 text-black hover:bg-gray-500 hover:text-white"
+          onClick={() => {
+            dispatch({ type: "RESET" });
+          }}
+        >
+          Reset
+        </button>
+        {state.lastState ? (
+          <button
+            className="rounded-full border border-solid border-black bg-gray-300 px-5 text-black hover:bg-gray-500 hover:text-white"
+            onClick={() => {
+              dispatch({ type: "UNDO_LAST_EVENT" });
+            }}
+          >
+            Undo last event
+          </button>
+        ) : null}{" "}
+        <button
+          className="rounded-full border border-solid border-black bg-gray-300 px-5 text-black hover:bg-gray-500 hover:text-white"
+          onClick={() => {
+            dispatch({ type: "TOGGLE_SORT_TASKS" });
+          }}
+        >
+          {state.sortTasks ? "Unsort" : "Sort"} my tasks
+        </button>
+      </div>
     </div>
   );
 };
